@@ -16,7 +16,12 @@ const getCoin = async (req, res) =>{
             priceUsd: val.priceUsd
         }))
 
-        
+        const data = await coinModel.find()
+
+        if(data.length!==0) {
+            return res.status(400).send({status : false, message : "data is present in the data base", data : data})
+        }
+
         await coinModel.create(coins)
 
         let sortedData = coins.sort((a, b) => b.changePercent24Hr - a.changePercent24Hr)
